@@ -40,13 +40,13 @@ function generateQuestionHTML() {
   <div class="container">
        <h1>${currentQuestion.name}</h1>
        <form id="js-question-form">
-           <input type="radio" name="answers" value=${currentQuestion.answers[0]}>
+           <input type="radio" name="answers" value= '${currentQuestion.answers[0]}' required>
            <label for="male">${currentQuestion.answers[0]}</label><br>
-           <input type="radio"  name="answers" value=${currentQuestion.answers[1]}>
+           <input type="radio"  name="answers" value= '${currentQuestion.answers[1]}' required>
            <label for="female">${currentQuestion.answers[1]}</label><br>
-           <input type="radio" name="answers" value=${currentQuestion.answers[2]}>
+           <input type="radio" name="answers" value= '${currentQuestion.answers[2]}' required>
            <label for="other">${currentQuestion.answers[2]}</label><br>
-           <input type="radio" name="answers" value=${currentQuestion.answers[3]}>
+           <input type="radio" name="answers" value= '${currentQuestion.answers[3]}' required>
            <label for="other">${currentQuestion.answers[3]}</label><br>
            <button type="submit" id="give-answer">Send it!</button>
        </form>
@@ -127,27 +127,6 @@ function startPageButton() {
   console.log('startPageButton() ran');
 }
 
-// function resultsPageButton() {
-
-
-//     $('#return-home').on('click', event => {
-//         event.preventDefault();
-//         console.log('something happen already');
-//         renderHomePage();
-//     });
-//     console.log('resultsPageButton() ran');
-// }
-function testButton() {
-  $('#test-home').on('click', event => {
-    console.log('fingers crossed');
-    event.preventDefault();
-    $('main').remove();
-    renderHomePage();
-
-    console.log('test button ran');
-  })
-}
-
 
 // submitAnswer needs to send us to our next question page, by adding to the counter value.
 // also needs to compare the correct answer
@@ -170,6 +149,7 @@ function submitAnswer() {
       renderQuestionPage();
     } else if (store.questionNumber === 5) {
       store.quizStarted = false;
+      store.questionNumber = 0;
       renderResultsPage();
     } else {
       renderHomePage();
@@ -192,17 +172,28 @@ function submitAnswer() {
 //     });
 // };
 
+function resultsPageButton() {
+
+  $('main').on('click', '#test-home', event => {
+    event.preventDefault();
+    console.log('something happen already');
+    store.score = 0;
+    renderHomePage();
+  });
+  console.log('resultsPageButton() ran');
+}
+
 
 function handleQuiz() {
   // needs to render our home page, and activate all of our other functions.
   // console.log(questions.length);
-  renderMain();
   generateHomePageHTML();
+  renderMain();
   generateQuestionHTML();
   startPageButton();
   submitAnswer();
-  // resultsPageButton();
-  testButton();
+  resultsPageButton();
+  
 
   console.log('handleQuiz() ran');
 }
