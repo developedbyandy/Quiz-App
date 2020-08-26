@@ -179,6 +179,7 @@ function resultsPageButton() {
     console.log('something happen already');
     store.score = 0;
     renderHomePage();
+    renderQuestionPage();
   });
   console.log('resultsPageButton() ran');
 }
