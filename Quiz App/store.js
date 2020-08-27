@@ -79,7 +79,7 @@ const store = {
   },
   ],
   quizStarted: false,
-  questionNumber: 0,
+  questionNumber: 1,
   score: 0
 
 };

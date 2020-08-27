@@ -177,7 +177,7 @@ function resultsPageButton() {
   $('main').on('click', '#test-home', event => {
     event.preventDefault();
     console.log('something happen already');
-    store.score = 0;
+    store.score = 1;
     renderHomePage();
     renderQuestionPage();
   });
