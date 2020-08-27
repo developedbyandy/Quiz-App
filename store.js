@@ -1,9 +1,23 @@
 'use strict';
+/**
+ * Example store structure
+ */
+
+// 5 or more questions are required
+// const questions = [
+
+
+
+
+// quizStarted: false,
+// questionNumber: 0,
+// score: 0;
 
 
 const store = {
   // 5 or more questions are required
   questions: [{
+
     name: 'How many points are awarded for a touchdown in NFL football?',
     answers: [
       1,
@@ -65,15 +79,16 @@ const store = {
   },
   ],
   quizStarted: false,
-  questionNumber: 0,
+  questionNumber: 1,
   score: 0
+
 };
+
+// let questionCount = store.questionNumber;
 let currentQuestion = store.questions[store.questionCount];
 
+console.log(store.questionNumber);
 
-console.log(store.questions[0].name);
-console.log(questions.name);
+console.log(store.questions[store.questionNumber].name);
+// console.log(currentQuestion.name); <--- DOESN'T WORK
 console.log(store.questions[store.questionNumber]);
-
-
-

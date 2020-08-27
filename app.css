@@ -1,5 +1,6 @@
 /* Your styles should be mobile-first and responsive */
 
+
 /** 
   * If you are unclear on how to utilize a mobile-first, responsive technique to write your CSS, here is an example: 
   *
@@ -7,15 +8,23 @@
   *
 */
 
-.container {
-  text-align: center;
-  max-width: 600px;
-  margin-left: 325px;
-  margin-top: 100px;
+* {
+  box-sizing: border-box;
 }
 
-h1{
-  
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
   text-align: center;
-  
+}
+
+header {
+  text-align: center;
 }

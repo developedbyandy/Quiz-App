@@ -1,5 +1,6 @@
 'use strict';
-//let counter = 0;
+
+
 /**
  * 
  * 
@@ -15,7 +16,9 @@
  * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
  * 
  */
+
 /********** TEMPLATE GENERATION FUNCTIONS **********/
+
 // These functions return HTML templates
 function generateHomePageHTML() {
   return `    
@@ -27,48 +30,62 @@ function generateHomePageHTML() {
             </div>`;
   console.log('generateHomePageHTML() ran');
 }
+
 // this needs to reference our questions in our store object array
 function generateQuestionHTML() {
   // store.questions[counter] will give the question at counter value
-
-  let question = store.questions[store.questionNumber];
+  let currentQuestion = store.questions[store.questionNumber];
 
   return `
   <div class="container">
-       <h1>${question.name}</h1>
+       <h1>${currentQuestion.name}</h1>
        <form id="js-question-form">
-           <input type="radio" id="male" name="answers" value=${question.answers[0]}>
-           <label for="male">${question.answers[0]}</label><br>
-           <input type="radio" id="female" name="answers" value=${question.answers[1]}>
-           <label for="female">${question.answers[1]}</label><br>
-           <input type="radio" id="other" name="answers" value=${question.answers[2]}>
-           <label for="other">${question.answers[2]}</label><br>
-           <input type="radio" id="other" name="answers" value=${question.answers[3]}>
-           <label for="other">${question.answers[3]}</label><br>
+           <input type="radio" name="answers" value= '${currentQuestion.answers[0]}' required>
+           <label for="male">${currentQuestion.answers[0]}</label><br>
+           <input type="radio"  name="answers" value= '${currentQuestion.answers[1]}' required>
+           <label for="female">${currentQuestion.answers[1]}</label><br>
+           <input type="radio" name="answers" value= '${currentQuestion.answers[2]}' required>
+           <label for="other">${currentQuestion.answers[2]}</label><br>
+           <input type="radio" name="answers" value= '${currentQuestion.answers[3]}' required>
+           <label for="other">${currentQuestion.answers[3]}</label><br>
            <button type="submit" id="give-answer">Send it!</button>
        </form>
-       <quiz-place>Question number: ${store.questionNumber} out of 5</quiz-place><br>
-       <score-spot>You have gotten ${store.score} correct</score-spot>
+       <quiz-place>Question number: ${store.questionNumber} out of 5.</quiz-place><br>
+       <score-spot>You have gotten ${store.score} right!</score-spot>
      </div>`;
+
 }
+
+function generateResultsPageHTML() {
+  return `    
+      <div class="container">               
+                <form id="js-results-page">
+                    <button type="button" class="button" id="test-home">Try Again!</button>
+                </form>
+                <p>Congrats! you got ${store.score} correct</p>
+            </div>`;
+}
+
 /********** RENDER FUNCTION(S) **********/
+
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
-// need to alert when user enters answer right or wrong.
+// if statement if right alert right answer if wrong alert wrong answer.
 function renderMain() {
-  if (store.quizStarted) {
+  // if (store.quizStarted) {
+  //     renderQuestionPage();
+  // } else {
+  //     renderHomePage();
+  // }
+  if (store.questionNumber < 5 && store.quizStarted) {
     renderQuestionPage();
+  } else if (store.questionNumber === 5 && store.quizStarted) {
+    store.quizStarted = false;
+    renderResultsPage();
   } else {
     renderHomePage();
   }
-  //if quiz started true render question page else render home
-  // if quiz started true render question
-  // as long as questions.length
-  //
+
 }
-
-
-
-
 
 
 function renderHomePage() {
@@ -91,11 +108,12 @@ function renderQuestionPage() {
 
 function renderResultsPage() {
   let resultsHTML = generateResultsPageHTML();
-  $('main').html(resultsHTML)
-
+  $('main').html(resultsHTML);
 }
+
 /********** EVENT HANDLER FUNCTIONS **********/
 // These functions handle events (submit, click, etc)
+
 // This needs to send us to our question page.
 
 function startPageButton() {
@@ -104,92 +122,81 @@ function startPageButton() {
     renderQuestionPage();
 
     console.log(store.questionNumber);
-
   });
+
   console.log('startPageButton() ran');
 }
+
+
 // submitAnswer needs to send us to our next question page, by adding to the counter value.
 // also needs to compare the correct answer
 // access correct answer with store.questions[0].correctAnswer
-function submitAnswer() {
 
+function submitAnswer() {
   $('main').on('submit', '#js-question-form', function (event) {
     event.preventDefault();
-    let question = store.questions[store.questionNumber];
-    //needs an if statement only increment as long as store.questions.length -1
-    // also need
-
-
-    if (parseInt(event.target.answers.value) === question.correctAnswer) {
+    let currentQuestion = store.questions[store.questionNumber];
+    if (parseInt(event.target.answers.value) === currentQuestion.correctAnswer) {
       store.score++;
     } else {
-
-      alert(`Sorry, wrong Answer the correct answer was ${question.correctAnswer}`);
+      // store.score--;
+      alert(`Sorry, wrong answer, the correct answer was ${currentQuestion.correctAnswer}`);
     }
-
+    // cycle through questions // RENDER AFTER CHANGING STORE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     store.questionNumber += 1;
+
     if (store.questionNumber < 5) {
       renderQuestionPage();
-    } else if (store.questionNumber = 5) {
+    } else if (store.questionNumber === 5) {
+      store.quizStarted = false;
+      store.questionNumber = 0;
       renderResultsPage();
     } else {
       renderHomePage();
     }
 
-
+    // if answer selected = correct answer add to our store.score total. else 
+    console.log(event.target.answers.value, currentQuestion.correctAnswer);
   });
   // needs to match 
+  // $('input[name=answers]:checked').val();
 
-
-
+  console.log('submitAnswer() ran');
 }
 
-function collectAnswers() {
-  $('input[type=radio').click(function (event) {
-    console.log('blah blah', $('input[name=answers]:checked').val());
-  })
+// $('input[type=radio][name=bedStatus]').change(function()
 
-}
+// function collectAnswers() {
+//     $('input[type=radio][name=answers]').change(function(event) {
+//         console.log('something', 'input[name=answers]');
+//     });
+// };
 
 function resultsPageButton() {
-  $("return-home").on("click", "js-results-page", function (event) {
+
+  $('main').on('click', '#test-home', event => {
     event.preventDefault();
+    console.log('something happen already');
+    store.score = 1;
     renderHomePage();
-
-    console.log("blach blh");
-
+    renderQuestionPage();
   });
-
+  console.log('resultsPageButton() ran');
 }
-
-
-function generateResultsPageHTML() {
-  return `    
-  <div class="container">
-            <h1>Welcome to the sports quiz!</h1>
-            <form id="js-results-page">
-                <button type="button" id="return-home">Try Again!</button>
-            </form>
-            <p>Congrats! You got ${store.score} correct</p>
-        </div>`;
-  console.log('generateHomePageHTML() ran');
-
-}
-
 
 
 function handleQuiz() {
   // needs to render our home page, and activate all of our other functions.
   // console.log(questions.length);
-  renderMain();
   generateHomePageHTML();
-  //renderHomePage();
+  renderMain();
   generateQuestionHTML();
-  //renderQuestionPage();
   startPageButton();
   submitAnswer();
-  collectAnswers();
   resultsPageButton();
+  
+
   console.log('handleQuiz() ran');
 }
+
 $(handleQuiz);
